@@ -1,7 +1,7 @@
 from txt_process_util import concatWordsSort
-import statistics
-from collections import Counter
 
+from collections import Counter
+from clustering_gram_util import populateNgramStatistics
 
 def cluster_gram_freq(list_pred_true_words_index):
   dic_uniGram_to_textInds={}
@@ -21,40 +21,10 @@ def cluster_gram_freq(list_pred_true_words_index):
         for l in range(k+1, len(words)):
           dic_triGram_to_textInds.setdefault(concatWordsSort([words[j], words[k], words[l]]),[]).append(i)		
 
-  ordered_keys_uniGram_to_textInds = sorted(dic_uniGram_to_textInds, key = lambda key: len(dic_uniGram_to_textInds[key]))
-  uni_value_sizes=[]
-  for key in ordered_keys_uniGram_to_textInds:
-    #print(key, dic_uniGram_to_textInds[key])
-    if len(dic_uniGram_to_textInds[key])>1: uni_value_sizes.append(len(dic_uniGram_to_textInds[key]))
-  uni_std=statistics.stdev(uni_value_sizes)
-  uni_mean=statistics.mean(uni_value_sizes) 
-  uni_max=max(uni_value_sizes)  
-  uni_min=min(uni_value_sizes)  
-	
-  #print("---------") 	
-  
-  ordered_keys_biGram_to_textInds = sorted(dic_biGram_to_textInds, key = lambda key: len(dic_biGram_to_textInds[key]))
-  bi_value_sizes=[]
-  for key in ordered_keys_biGram_to_textInds:
-    #print(key, dic_biGram_to_textInds[key])
-    if len(dic_biGram_to_textInds[key])>1: bi_value_sizes.append(len(dic_biGram_to_textInds[key]))	
-  bi_std=statistics.stdev(bi_value_sizes)
-  bi_mean=statistics.mean(bi_value_sizes) 
-  bi_max=max(bi_value_sizes)  
-  bi_min=min(bi_value_sizes) 
-
-
-  ordered_keys_triGram_to_textInds = sorted(dic_triGram_to_textInds, key = lambda key: len(dic_triGram_to_textInds[key]))
-  tri_value_sizes=[]
-  for key in ordered_keys_triGram_to_textInds:
-    #print(key, dic_uniGram_to_textInds[key])
-    if len(dic_triGram_to_textInds[key])>1: tri_value_sizes.append(len(dic_triGram_to_textInds[key]))
-  tri_std=statistics.stdev(tri_value_sizes)
-  tri_mean=statistics.mean(tri_value_sizes) 
-  tri_max=max(tri_value_sizes)  
-  tri_min=min(tri_value_sizes)  
+  uni_std,uni_mean,uni_max,uni_min=populateNgramStatistics(dic_uniGram_to_textInds, 1)
+  bi_std,bi_mean,bi_max,bi_min=populateNgramStatistics(dic_biGram_to_textInds, 1)
+  tri_std,tri_mean,tri_max,tri_min=populateNgramStatistics(dic_triGram_to_textInds, 1)  
    
-
   print("-----tri-gram calculation---------")  
   #find clusters based on tri
   dictri_keys_selectedClusters={}
@@ -226,9 +196,9 @@ def cluster_gram_freq(list_pred_true_words_index):
   
   
   
-  print("###\nuni", len(ordered_keys_uniGram_to_textInds), len(dicUni_keys_selectedClusters), uni_min, uni_max, uni_mean, uni_std, "texts_clustered_by_uni", texts_clustered_by_uni, "max_group_sum_uni", max_group_sum_uni, max_group_sum_uni/texts_clustered_by_uni)
-  print("bi", len(ordered_keys_biGram_to_textInds), bi_min, bi_max, bi_mean, bi_std, "texts_clustered_by_bi", texts_clustered_by_bi, "max_group_sum_bi", max_group_sum_bi, max_group_sum_bi/texts_clustered_by_bi)
-  print("tri", len(ordered_keys_triGram_to_textInds), tri_min, tri_max, tri_mean, tri_std, "texts_clustered_by_tri", texts_clustered_by_tri, "max_group_sum_tri", max_group_sum_tri, max_group_sum_tri/texts_clustered_by_tri)  
+  print("###\nuni", len(dic_uniGram_to_textInds), len(dicUni_keys_selectedClusters), uni_min, uni_max, uni_mean, uni_std, "texts_clustered_by_uni", texts_clustered_by_uni, "max_group_sum_uni", max_group_sum_uni, max_group_sum_uni/texts_clustered_by_uni)
+  print("bi", len(dic_biGram_to_textInds), bi_min, bi_max, bi_mean, bi_std, "texts_clustered_by_bi", texts_clustered_by_bi, "max_group_sum_bi", max_group_sum_bi, max_group_sum_bi/texts_clustered_by_bi)
+  print("tri", len(dic_triGram_to_textInds), tri_min, tri_max, tri_mean, tri_std, "texts_clustered_by_tri", texts_clustered_by_tri, "max_group_sum_tri", max_group_sum_tri, max_group_sum_tri/texts_clustered_by_tri)  
     
   
     
