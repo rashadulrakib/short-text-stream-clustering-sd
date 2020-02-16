@@ -1,0 +1,27 @@
+0 5000
+5000
+-----tri-gram calculation---------
+-----bi-gram calculation---------
+-----uni-gram calculation---------
+###
+uni 5636 258 2 203 9.460800529275554 15.452764267765453 texts_clustered_by_uni 1330 max_group_sum_uni 786 0.5909774436090226
+bi 56737 2 171 4.001062040888574 5.7626843879909595 texts_clustered_by_bi 1573 max_group_sum_bi 1525 0.9694850603941513
+tri 126068 2 76 3.360845033460176 4.086183231382437 texts_clustered_by_tri 1766 max_group_sum_tri 1710 0.9682899207248018
+5000 10000
+5000
+-----tri-gram calculation---------
+-----bi-gram calculation---------
+-----uni-gram calculation---------
+###
+uni 5685 257 2 193 9.347697368421052 15.356072997817735 texts_clustered_by_uni 1394 max_group_sum_uni 765 0.5487804878048781
+bi 56320 2 166 3.9156107004575853 5.665311604893903 texts_clustered_by_bi 1439 max_group_sum_bi 1388 0.9645587213342599
+tri 123774 2 68 3.269549645154872 3.851658254333832 texts_clustered_by_tri 1849 max_group_sum_tri 1794 0.9702541914548405
+10000 11109
+1109
+-----tri-gram calculation---------
+-----bi-gram calculation---------
+-----uni-gram calculation---------
+###
+uni 2647 114 2 40 4.642736486486487 4.594998708469901 texts_clustered_by_uni 375 max_group_sum_uni 220 0.5866666666666667
+bi 16106 2 32 3.068137254901961 2.431355670818827 texts_clustered_by_bi 251 max_group_sum_bi 244 0.9721115537848606
+tri 32282 2 22 2.7765386204047915 1.8932358274124041 texts_clustered_by_tri 213 max_group_sum_tri 205 0.9624413145539906

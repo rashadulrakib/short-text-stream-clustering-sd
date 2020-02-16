@@ -5,7 +5,7 @@ from clustering_gram import cluster_gram_freq
 list_pred_true_words_index=readlistWholeJsonDataSet("News")
 
 
-batchSize=5000
+batchSize=2000
 allTexts=len(list_pred_true_words_index)
 
 for start in range(0,allTexts,batchSize):
