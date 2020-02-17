@@ -3,6 +3,7 @@ from txt_process_util import concatWordsSort
 from collections import Counter
 from clustering_gram_util import populateNgramStatistics
 from clustering_gram_util import clusterByNgram
+from clustering_gram_util import mergeGroups
 
 def cluster_gram_freq(list_pred_true_words_index):
   dic_uniGram_to_textInds={}
@@ -28,11 +29,8 @@ def cluster_gram_freq(list_pred_true_words_index):
   
   dic_used_textIds={}
   dic_used_textIds, max_group_sum_tri, texts_clustered_by_tri, dictri_keys_selectedClusters=clusterByNgram(dic_triGram_to_textInds, tri_std,tri_mean, tri_std_csize_offset, dic_used_textIds, list_pred_true_words_index)
-  #max_group_sum_tri, texts_clustered_by_tri, dictri_keys_selectedClusters=mergeGroups(dictri_keys_selectedClusters, 2)
-  
   
   dic_used_textIds, max_group_sum_bi, texts_clustered_by_bi, dicbi_keys_selectedClusters=clusterByNgram(dic_biGram_to_textInds, bi_std,bi_mean, bi_std_csize_offset, dic_used_textIds, list_pred_true_words_index)
-  #max_group_sum_bi, texts_clustered_by_bi, dicbi_keys_selectedClusters=mergeGroups(dicbi_keys_selectedClusters, 1)
   
   #dic_used_textIds, max_group_sum_uni, texts_clustered_by_uni, dicuni_keys_selectedClusters=clusterByNgram(dic_uniGram_to_textInds, uni_std,uni_mean, uni_std_csize_offset, dic_used_textIds, list_pred_true_words_index)
   	
@@ -41,6 +39,13 @@ def cluster_gram_freq(list_pred_true_words_index):
   #print("uni", len(dic_uniGram_to_textInds), "total cls#",len(dicuni_keys_selectedClusters), uni_min, uni_max, uni_mean, uni_std, "texts_clustered_by_uni", texts_clustered_by_uni, "max_group_sum_uni", max_group_sum_uni, max_group_sum_uni/texts_clustered_by_uni)
   print("tri", len(dic_triGram_to_textInds), "total cls#",len(dictri_keys_selectedClusters), tri_min, tri_max, tri_mean, tri_std, "texts_clustered_by_tri", texts_clustered_by_tri, "max_group_sum_tri", max_group_sum_tri, max_group_sum_tri/texts_clustered_by_tri)
   print("bi", len(dic_biGram_to_textInds), "total cls#",len(dicbi_keys_selectedClusters), bi_min, bi_max, bi_mean, bi_std, "texts_clustered_by_bi", texts_clustered_by_bi, "max_group_sum_bi", max_group_sum_bi, max_group_sum_bi/texts_clustered_by_bi) 
+  
+  print("mergekeys###")
+  max_group_sum_tri, texts_clustered_by_tri, dictri_keys_selectedClusters=mergeGroups(dictri_keys_selectedClusters, 2, list_pred_true_words_index)
+  max_group_sum_bi, texts_clustered_by_bi, dicbi_keys_selectedClusters=mergeGroups(dicbi_keys_selectedClusters, 1, list_pred_true_words_index)
+  
+  print("tri", len(dic_triGram_to_textInds), "merged total cls#",len(dictri_keys_selectedClusters), tri_min, tri_max, tri_mean, tri_std, "texts_clustered_by_tri", texts_clustered_by_tri, "max_group_sum_tri", max_group_sum_tri, max_group_sum_tri/texts_clustered_by_tri)
+  print("bi", len(dic_biGram_to_textInds), "merged total cls#",len(dicbi_keys_selectedClusters), bi_min, bi_max, bi_mean, bi_std, "texts_clustered_by_bi", texts_clustered_by_bi, "max_group_sum_bi", max_group_sum_bi, max_group_sum_bi/texts_clustered_by_bi)
     
   
     

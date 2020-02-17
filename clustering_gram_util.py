@@ -1,11 +1,53 @@
 import statistics
 from collections import Counter
+import numpy as np
 
-def mergeGroups(dictri_keys_selectedClusters, matchCount):
-  max_group_sum_tri=0
-  texts_clustered_by_tri=1
-
-  return [max_group_sum_tri, texts_clustered_by_tri, dictri_keys_selectedClusters]
+def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_index):
+  max_group_sum=0
+  texts_clustered_sum=0
+  new_dic_keys_selectedClusters={}
+  dic_used_key={}  
+  keys=list(dicgram_keys_selectedClusters.keys())
+  
+  for i in range(len(keys)):
+    if keys[i] in list(dic_used_key.keys()):
+      continue	
+    list_used_keys=[] 	  
+    for j in range(i+1, len(keys)):
+      seti=set(keys[i].split(' '))
+      setj=set(keys[j].split(' '))
+      commonWords=seti.intersection(setj)
+      if len(commonWords)==matchCount:
+        dic_used_key[keys[j]]=1
+        list_used_keys.append(keys[j])			
+    
+    dic_used_key[keys[i]]=1		
+    if len(list_used_keys)>0:
+      
+      list_used_keys.append(keys[i])
+      list_key_words=[] 	  
+      list_key_values=[]	  
+      for key in list_used_keys:
+        list_key_words.extend(key.split(' '))
+        list_key_values.extend(dicgram_keys_selectedClusters[key])
+      list_key_words.sort()
+      list_key_words=set(list_key_words)	  
+      mergedKey=' '.join(list_key_words)
+      new_dic_keys_selectedClusters[mergedKey]=list_key_values	  
+      print(mergedKey)	  
+    else:
+      new_dic_keys_selectedClusters[keys[i]]=dicgram_keys_selectedClusters[keys[i]]  
+    
+    for mergedKey, txtInds in dicgram_keys_selectedClusters.items():
+      print(mergedKey)	
+      texts_clustered_sum+=len(txtInds)
+      true_label_list=[]
+      for txtInd in txtInds:
+        true_label_list.append(list_pred_true_words_index[txtInd][1])
+      print(list_pred_true_words_index[txtInd])		
+      max_group_sum+=max(Counter(true_label_list).values())	        		
+      	  
+  return [max_group_sum, texts_clustered_sum, new_dic_keys_selectedClusters]
 
 def clusterByNgram(dic_gram_to_textInds, gram_std, gram_mean, gram_std_csize_offset, dic_used_textIds, list_pred_true_words_index):
   print("-----gram calculation---------")  
