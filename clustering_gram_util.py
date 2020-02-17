@@ -2,25 +2,55 @@ import statistics
 from collections import Counter
 import numpy as np
 
+def findCloseCluster_GramKey(keys_list, word_arr):
+  closeKey_Lexical=None
+  maxCommonLength=0
+  
+  for key in keys_list:
+    set1=set(key.split(' '))
+    set2=set(word_arr)
+    common=set1.intersection(set2)
+    if len(common)>maxCommonLength:
+      maxCommonLength=len(common)
+      #arr =list(common)
+      #arr.sort()	  
+      closeKey_Lexical=key	  
+  
+  return closeKey_Lexical
+
 def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMerged_keys_selectedClusters):
-  new_dicMerged_keys_selectedClusters={} #key =[txtInds w.r.t to sublist list_pred_true_words_index]
+  #new_dicMerged_keys_selectedClusters={} #key =[txtInds w.r.t to sublist list_pred_true_words_index]
   new_not_clustered_inds=[]
   keys_list=list(dicMerged_keys_selectedClusters.keys())
   for txtInd in not_clustered_inds:
     item=list_pred_true_words_index[txtInd]
     word_arr=item[2]
-    '''closeKey_Lexical=findCloseCluster_GramKey(keys_list, word_arr)
+    closeKey_Lexical=findCloseCluster_GramKey(keys_list, word_arr)
     if closeKey_Lexical==None:
       new_not_clustered_inds.append(txtInd)
-      continue
-    print("list before close key", dicMerged_keys_selectedClusters[closeKey_Lexical])	  
-    dicMerged_keys_selectedClusters[closeKey_Lexical]=dicMerged_keys_selectedClusters[closeKey_Lexical].append(txtInd)	  
-    print("list after close key", dicMerged_keys_selectedClusters[closeKey_Lexical]	'''
-          
-  
-  
-  
-  return [new_dicMerged_keys_selectedClusters, new_not_clustered_inds]
+    else:
+      #print("list before close key", dicMerged_keys_selectedClusters[closeKey_Lexical])  
+      new_list=dicMerged_keys_selectedClusters[closeKey_Lexical]
+      new_list.append(txtInd)      	  
+      dicMerged_keys_selectedClusters[closeKey_Lexical]=new_list
+      #print("list after close key", dicMerged_keys_selectedClusters[closeKey_Lexical])
+
+  texts_clustered_sum=0
+  max_group_sum=0
+  for mergedKey, txtInds in dicMerged_keys_selectedClusters.items():
+    #txtInds=list(set(txtInds))	
+    #print("mergedKey->", mergedKey, txtInds)	
+    texts_clustered_sum+=len(txtInds)
+    true_label_list=[]
+    for txtInd in txtInds:
+      true_label_list.append(list_pred_true_words_index[txtInd][1])
+      #print(list_pred_true_words_index[txtInd])		
+    max_group_sum+=max(Counter(true_label_list).values())
+
+  	
+	
+  print("new_not_clustered_inds", len(new_not_clustered_inds), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum) 	
+  return [dicMerged_keys_selectedClusters, new_not_clustered_inds]
 
 def extractNotClusteredItems(list_pred_true_words_index, list_dic_keys_selectedClusters):
   not_clustered_inds=[]
