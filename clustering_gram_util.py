@@ -2,6 +2,32 @@ import statistics
 from collections import Counter
 import numpy as np
 
+def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMerged_keys_selectedClusters):
+  new_dicMerged_keys_selectedClusters={} #key =[txtInds w.r.t to sublist list_pred_true_words_index]
+  new_not_clustered_inds=[]
+  
+  
+  return [new_dicMerged_keys_selectedClusters, new_not_clustered_inds]
+
+def extractNotClusteredItems(list_pred_true_words_index, list_dic_keys_selectedClusters):
+  not_clustered_inds=[]
+  
+  list_clustered_inds=[]
+  for dic_keys_selectedClusters in list_dic_keys_selectedClusters:
+    for gramkey, txtInds in dic_keys_selectedClusters.items():
+      list_clustered_inds.extend(txtInds)
+  list_clustered_inds=set(list_clustered_inds)
+  
+  for i in range(len(list_pred_true_words_index)):
+    if i in list_clustered_inds:
+      continue
+    not_clustered_inds.append(i)
+    print("not clustered", list_pred_true_words_index[i])
+
+  print("len(not_clustered_inds)", len(not_clustered_inds))	
+  	  
+  return not_clustered_inds
+
 def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_index):
   max_group_sum=0
   texts_clustered_sum=0
@@ -54,7 +80,7 @@ def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_
       	  
   return [max_group_sum, texts_clustered_sum, new_dic_keys_selectedClusters]
 
-def clusterByNgram(dic_gram_to_textInds, gram_std, gram_mean, gram_std_csize_offset, dic_used_textIds, list_pred_true_words_index):
+def clusterByNgram(dic_gram_to_textInds, minSize, maxSize, dic_used_textIds, list_pred_true_words_index):
   print("-----gram calculation---------")  
   #find clusters based on gram
   dicgram_keys_selectedClusters={}
@@ -64,7 +90,7 @@ def clusterByNgram(dic_gram_to_textInds, gram_std, gram_mean, gram_std_csize_off
     size=len(dic_gram_to_textInds[gram])
     if size not in dicgram_clusterSizes: dicgram_clusterSizes[size]=0	
     dicgram_clusterSizes[size]+=1   
-    if size>=gram_mean+gram_std and size<=gram_mean+gram_std+gram_std_csize_offset:
+    if size>=minSize and size<=maxSize:
       dicgram_keys_selectedClusters[gram]=dic_gram_to_textInds[gram]
       #print(gram, dicgram_keys_selectedClusters[gram])
   #for key, size in dicgram_clusterSizes.items():
