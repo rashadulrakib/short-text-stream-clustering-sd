@@ -8,20 +8,24 @@ def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_
   new_dic_keys_selectedClusters={}
   dic_used_key={}  
   keys=list(dicgram_keys_selectedClusters.keys())
+  #print("keys", keys) 
   
   for i in range(len(keys)):
-    if keys[i] in list(dic_used_key.keys()):
+    #print("list(dic_used_key.keys())", list(dic_used_key.keys()))
+    if keys[i] in list(dic_used_key.keys()):	
       continue	
     list_used_keys=[] 	  
+    dic_used_key[keys[i]]=1	
     for j in range(i+1, len(keys)):
+      if keys[j] in list(dic_used_key.keys()):	
+        continue	
       seti=set(keys[i].split(' '))
       setj=set(keys[j].split(' '))
       commonWords=seti.intersection(setj)
       if len(commonWords)==matchCount:
         dic_used_key[keys[j]]=1
         list_used_keys.append(keys[j])			
-    
-    dic_used_key[keys[i]]=1		
+    		
     if len(list_used_keys)>0:
       
       list_used_keys.append(keys[i])
@@ -34,18 +38,19 @@ def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_
       list_key_words=set(list_key_words)	  
       mergedKey=' '.join(list_key_words)
       new_dic_keys_selectedClusters[mergedKey]=list_key_values	  
-      print(mergedKey)	  
+      #print(mergedKey)	  
     else:
       new_dic_keys_selectedClusters[keys[i]]=dicgram_keys_selectedClusters[keys[i]]  
     
-    for mergedKey, txtInds in dicgram_keys_selectedClusters.items():
-      print(mergedKey)	
-      texts_clustered_sum+=len(txtInds)
-      true_label_list=[]
-      for txtInd in txtInds:
-        true_label_list.append(list_pred_true_words_index[txtInd][1])
+  for mergedKey, txtInds in new_dic_keys_selectedClusters.items():
+    #txtInds=list(set(txtInds))	
+    print("mergedKey->", mergedKey, txtInds)	
+    texts_clustered_sum+=len(txtInds)
+    true_label_list=[]
+    for txtInd in txtInds:
+      true_label_list.append(list_pred_true_words_index[txtInd][1])
       print(list_pred_true_words_index[txtInd])		
-      max_group_sum+=max(Counter(true_label_list).values())	        		
+    max_group_sum+=max(Counter(true_label_list).values())	        		
       	  
   return [max_group_sum, texts_clustered_sum, new_dic_keys_selectedClusters]
 
@@ -96,9 +101,9 @@ def clusterByNgram(dic_gram_to_textInds, gram_std, gram_mean, gram_std_csize_off
  
     true_label_list=[] 
     print("selectedClustersKeysList[i]", selectedClustersKeysList[i])    	
-    for txt_id in dicgram_keys_selectedClusters[selectedClustersKeysList[i]]:	
-      print(list_pred_true_words_index[txt_id])
-      true_label_list.append(list_pred_true_words_index[txt_id][1])	  
+    for txtInd in dicgram_keys_selectedClusters[selectedClustersKeysList[i]]:	
+      print(list_pred_true_words_index[txtInd])
+      true_label_list.append(list_pred_true_words_index[txtInd][1])	  
     if len(true_label_list)>0: 
       max_group_sum_gram+=max(Counter(true_label_list).values())
       dicgram_keys_selectedNonEmptyClusters[selectedClustersKeysList[i]]=dicgram_keys_selectedClusters[selectedClustersKeysList[i]]	  
