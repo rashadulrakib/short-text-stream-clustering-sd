@@ -5,6 +5,19 @@ import numpy as np
 def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMerged_keys_selectedClusters):
   new_dicMerged_keys_selectedClusters={} #key =[txtInds w.r.t to sublist list_pred_true_words_index]
   new_not_clustered_inds=[]
+  keys_list=list(dicMerged_keys_selectedClusters.keys())
+  for txtInd in not_clustered_inds:
+    item=list_pred_true_words_index[txtInd]
+    word_arr=item[2]
+    '''closeKey_Lexical=findCloseCluster_GramKey(keys_list, word_arr)
+    if closeKey_Lexical==None:
+      new_not_clustered_inds.append(txtInd)
+      continue
+    print("list before close key", dicMerged_keys_selectedClusters[closeKey_Lexical])	  
+    dicMerged_keys_selectedClusters[closeKey_Lexical]=dicMerged_keys_selectedClusters[closeKey_Lexical].append(txtInd)	  
+    print("list after close key", dicMerged_keys_selectedClusters[closeKey_Lexical]	'''
+          
+  
   
   
   return [new_dicMerged_keys_selectedClusters, new_not_clustered_inds]
