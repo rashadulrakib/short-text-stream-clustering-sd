@@ -30,9 +30,12 @@ def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMer
       new_not_clustered_inds.append(txtInd)
     else:
       #print("list before close key", dicMerged_keys_selectedClusters[closeKey_Lexical])  
+      print("closeKey_Lexical", closeKey_Lexical+",", list_pred_true_words_index[txtInd])	  
       new_list=dicMerged_keys_selectedClusters[closeKey_Lexical]
       new_list.append(txtInd)      	  
       dicMerged_keys_selectedClusters[closeKey_Lexical]=new_list
+      for lid in new_list:
+        print("new_list,", list_pred_true_words_index[lid]) 	  
       #print("list after close key", dicMerged_keys_selectedClusters[closeKey_Lexical])
 
   texts_clustered_sum=0
@@ -49,7 +52,7 @@ def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMer
 
   	
 	
-  print("new_not_clustered_inds", len(new_not_clustered_inds), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum) 	
+  print("\nnew_not_clustered_inds", len(new_not_clustered_inds), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum) 	
   return [dicMerged_keys_selectedClusters, new_not_clustered_inds]
 
 def extractNotClusteredItems(list_pred_true_words_index, list_dic_keys_selectedClusters):
