@@ -50,8 +50,8 @@ def cluster_gram_freq(list_pred_true_words_index):
   not_clustered_inds=extractNotClusteredItems(list_pred_true_words_index, [dictri_keys_selectedClusters, dicbi_keys_selectedClusters])
   
   print("###assign non clustered to merged clusters###")
-  new_dicTriMerged_keys_selectedClusters, not_clustered_inds_tri=assignToMergedClusters(list_pred_true_words_index, not_clustered_inds, dictri_keys_selectedClusters)
-  #new_dicBiMerged_keys_selectedClusters, not_clustered_inds_bi=assignToMergedClusters(list_pred_true_words_index, not_clustered_inds_tri, dicbi_keys_selectedClusters)
+  new_dicTriMerged_keys_selectedClusters, not_clustered_inds_tri=assignToMergedClusters(list_pred_true_words_index, not_clustered_inds, dictri_keys_selectedClusters, 2)
+  #new_dicBiMerged_keys_selectedClusters, not_clustered_inds_bi=assignToMergedClusters(list_pred_true_words_index, not_clustered_inds_tri, dicbi_keys_selectedClusters, 2)
     
   
     

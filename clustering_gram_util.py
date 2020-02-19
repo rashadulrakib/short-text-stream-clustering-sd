@@ -2,7 +2,7 @@ import statistics
 from collections import Counter
 import numpy as np
 
-def findCloseCluster_GramKey(keys_list, word_arr):
+def findCloseCluster_GramKey(keys_list, word_arr, minMatch):
   closeKey_Lexical=None
   maxCommonLength=0
   
@@ -10,7 +10,7 @@ def findCloseCluster_GramKey(keys_list, word_arr):
     set1=set(key.split(' '))
     set2=set(word_arr)
     common=set1.intersection(set2)
-    if len(common)>maxCommonLength:
+    if len(common)>=minMatch and len(common)>maxCommonLength:
       maxCommonLength=len(common)
       #arr =list(common)
       #arr.sort()	  
@@ -18,14 +18,14 @@ def findCloseCluster_GramKey(keys_list, word_arr):
   
   return closeKey_Lexical
 
-def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMerged_keys_selectedClusters):
+def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMerged_keys_selectedClusters, minMatch):
   #new_dicMerged_keys_selectedClusters={} #key =[txtInds w.r.t to sublist list_pred_true_words_index]
   new_not_clustered_inds=[]
   keys_list=list(dicMerged_keys_selectedClusters.keys())
   for txtInd in not_clustered_inds:
     item=list_pred_true_words_index[txtInd]
     word_arr=item[2]
-    closeKey_Lexical=findCloseCluster_GramKey(keys_list, word_arr)
+    closeKey_Lexical=findCloseCluster_GramKey(keys_list, word_arr, minMatch)
     if closeKey_Lexical==None:
       new_not_clustered_inds.append(txtInd)
     else:
@@ -52,7 +52,7 @@ def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMer
 
   	
 	
-  print("\nnew_not_clustered_inds", len(new_not_clustered_inds), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum) 	
+  print("\nnew_not_clustered_inds", len(new_not_clustered_inds), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum, "old_not_clustered_inds", len(not_clustered_inds)) 	
   return [dicMerged_keys_selectedClusters, new_not_clustered_inds]
 
 def extractNotClusteredItems(list_pred_true_words_index, list_dic_keys_selectedClusters):
@@ -101,15 +101,16 @@ def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_
     if len(list_used_keys)>0:
       
       list_used_keys.append(keys[i])
-      list_key_words=[] 	  
+      #list_key_words=[] 	  
       list_key_values=[]	  
       for key in list_used_keys:
-        list_key_words.extend(key.split(' '))
+        #list_key_words.extend(key.split(' '))
         list_key_values.extend(dicgram_keys_selectedClusters[key])
-      list_key_words.sort()
-      list_key_words=set(list_key_words)	  
-      mergedKey=' '.join(list_key_words)
-      new_dic_keys_selectedClusters[mergedKey]=list_key_values	  
+      #list_key_words.sort()
+      #list_key_words=set(list_key_words)	  
+      #mergedKey=' '.join(list_key_words)
+      #new_dic_keys_selectedClusters[mergedKey]=list_key_values	  
+      new_dic_keys_selectedClusters[keys[i]]=list_key_values	  	  
       #print(mergedKey)	  
     else:
       new_dic_keys_selectedClusters[keys[i]]=dicgram_keys_selectedClusters[keys[i]]  
