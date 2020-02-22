@@ -2,6 +2,49 @@ import statistics
 from collections import Counter
 import numpy as np
 
+def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, sub_list_pred_true_words_index):
+  new_dictri_keys_selectedClusters_currentBatch={}
+  new_dicbi_keys_selectedClusters_currentBatch={}
+  new_dic_combined_keys_selectedClusters={}
+  new_not_clustered_inds_currentBatch=[]
+  dic_txtIds={}
+  
+  for key, txtInds in dictri_keys_selectedClusters_currentBatch.items():
+    if len(txtInds)==0:
+      continue	
+    if len(txtInds)==1:
+      new_not_clustered_inds_currentBatch.extend(txtInds)
+      continue	  
+    new_dictri_keys_selectedClusters_currentBatch[key]=txtInds
+    new_dic_combined_keys_selectedClusters[key]=txtInds	
+    for txtInd in txtInds:
+      dic_txtIds[txtInd]=1
+
+  for key, txtInds in dicbi_keys_selectedClusters_currentBatch.items():
+    if len(txtInds)==0:
+      continue	
+    if len(txtInds)==1:
+      new_not_clustered_inds_currentBatch.extend(txtInds)
+      continue	  
+    new_dicbi_keys_selectedClusters_currentBatch[key]=txtInds
+    new_dic_combined_keys_selectedClusters[key]=txtInds	
+    for txtInd in txtInds:
+      dic_txtIds[txtInd]=1	
+
+  for pred_true_words_index	in sub_list_pred_true_words_index: 
+    index=pred_true_words_index[3]
+    if index in dic_txtIds:
+      continue 	
+    new_not_clustered_inds_currentBatch.append(index)
+
+  new_not_clustered_inds_currentBatch=list(set(new_not_clustered_inds_currentBatch))	
+    	
+  print("filter", len(new_not_clustered_inds_currentBatch), len(dic_txtIds), len(new_dic_combined_keys_selectedClusters))
+    	  
+      
+  
+  return [new_dictri_keys_selectedClusters_currentBatch, new_dicbi_keys_selectedClusters_currentBatch, new_not_clustered_inds_currentBatch, new_dic_combined_keys_selectedClusters]
+
 def mergeWithPrevBatch(dic_keys_selectedClusters, dic_keys_selectedClusters_prevBatch):
   if len(dic_keys_selectedClusters_prevBatch)==0:
     return dic_keys_selectedClusters
