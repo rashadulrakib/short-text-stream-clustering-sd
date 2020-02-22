@@ -28,27 +28,31 @@ for start in range(0,allTexts,batchSize):
 #temp evaluation
 texts_clustered_sum=0
 max_group_sum=0
+bigger_clusters_tri=0
+bigger_clusters_bi=0
 for mergedKey, txtInds in dictri_keys_selectedClusters_currentBatch.items():
   #txtInds=list(set(txtInds))	
   #print("mergedKey->", mergedKey, txtInds)	
   texts_clustered_sum+=len(txtInds)
-  print("txtInds-main", len(txtInds), txtInds)   
+  if len(txtInds)>1: bigger_clusters_tri+=1  
+  #print("txtInds-main", len(txtInds), txtInds)   
   true_label_list=[]
   for txtInd in txtInds:
     true_label_list.append(list_pred_true_words_index[txtInd][1])	
-    max_group_sum+=max(Counter(true_label_list).values())
-  print("true_label_list", len(true_label_list), true_label_list)	
+  max_group_sum+=max(Counter(true_label_list).values())
+  #print("true_label_list", len(true_label_list), true_label_list)	
 	
-'''for mergedKey, txtInds in dicbi_keys_selectedClusters_currentBatch.items():
+for mergedKey, txtInds in dicbi_keys_selectedClusters_currentBatch.items():
   #txtInds=list(set(txtInds))	
   #print("mergedKey->", mergedKey, txtInds)	
   texts_clustered_sum+=len(txtInds)
+  if len(txtInds)>1: bigger_clusters_bi+=1   
   true_label_list=[]
   for txtInd in txtInds:
     true_label_list.append(list_pred_true_words_index[txtInd][1])	  
-    max_group_sum+=max(Counter(true_label_list).values())	'''
+  max_group_sum+=max(Counter(true_label_list).values())
 	
-print("\nfinal not_clustered_inds", len(not_clustered_inds_currentBatch), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum, "main-total cls#", len(dictri_keys_selectedClusters_currentBatch))
+print("\nfinal not_clustered_inds", len(not_clustered_inds_currentBatch), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum, "main-total cls tri#", len(dictri_keys_selectedClusters_currentBatch), "main-total cls bi#",len(dicbi_keys_selectedClusters_currentBatch), "bigger_clusters_tri", bigger_clusters_tri, "bigger_clusters_bi", bigger_clusters_bi)
 
 
 #  
