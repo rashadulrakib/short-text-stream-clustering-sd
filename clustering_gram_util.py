@@ -38,24 +38,28 @@ def findCloseCluster_GramKey(keys_list, word_arr, minMatch):
   
   return closeKey_Lexical
 
-def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMerged_keys_selectedClusters, minMatch):
+def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMerged_keys_selectedClusters, minMatch, seen_list_pred_true_words_index):
   #new_dicMerged_keys_selectedClusters={} #key =[txtInds w.r.t to sublist list_pred_true_words_index]
   new_not_clustered_inds=[]
   keys_list=list(dicMerged_keys_selectedClusters.keys())
   for txtInd in not_clustered_inds:
-    item=list_pred_true_words_index[txtInd]
+    '''item=list_pred_true_words_index[txtInd]'''
+    item=seen_list_pred_true_words_index[txtInd]	
     word_arr=item[2]
     closeKey_Lexical=findCloseCluster_GramKey(keys_list, word_arr, minMatch)
     if closeKey_Lexical==None:
       new_not_clustered_inds.append(txtInd)
     else:
       #print("list before close key", dicMerged_keys_selectedClusters[closeKey_Lexical])  
-      print("closeKey_Lexical", closeKey_Lexical+",", list_pred_true_words_index[txtInd])	  
+      '''print("closeKey_Lexical", closeKey_Lexical+",",
+	  list_pred_true_words_index[txtInd])'''	  
+      print("closeKey_Lexical", closeKey_Lexical+",", seen_list_pred_true_words_index[txtInd])	  
       new_list=dicMerged_keys_selectedClusters[closeKey_Lexical]
       new_list.append(txtInd)      	  
       dicMerged_keys_selectedClusters[closeKey_Lexical]=new_list
       for lid in new_list:
-        print("new_list,", list_pred_true_words_index[lid])	  
+        '''print("new_list,", list_pred_true_words_index[lid])'''
+        print("new_list,", seen_list_pred_true_words_index[lid])	  		
       #print("list after close key", dicMerged_keys_selectedClusters[closeKey_Lexical])
 
   texts_clustered_sum=0
@@ -66,8 +70,9 @@ def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMer
     texts_clustered_sum+=len(txtInds)
     true_label_list=[]
     for txtInd in txtInds:
-      true_label_list.append(list_pred_true_words_index[txtInd][1])
-      #print(list_pred_true_words_index[txtInd])		
+      '''true_label_list.append(list_pred_true_words_index[txtInd][1])'''
+      true_label_list.append(seen_list_pred_true_words_index[txtInd][1])	  
+      	
     max_group_sum+=max(Counter(true_label_list).values())
 
   	
@@ -75,7 +80,7 @@ def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMer
   print("\nnew_not_clustered_inds", len(new_not_clustered_inds), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum, "old_not_clustered_inds", len(not_clustered_inds)) 	
   return [dicMerged_keys_selectedClusters, new_not_clustered_inds]
 
-def extractNotClusteredItems(list_pred_true_words_index, list_dic_keys_selectedClusters):
+def extractNotClusteredItems(list_pred_true_words_index, list_dic_keys_selectedClusters, seen_list_pred_true_words_index):
   not_clustered_inds=[]
   
   list_clustered_inds=[]
@@ -84,17 +89,23 @@ def extractNotClusteredItems(list_pred_true_words_index, list_dic_keys_selectedC
       list_clustered_inds.extend(txtInds)
   list_clustered_inds=set(list_clustered_inds)
   
-  for i in range(len(list_pred_true_words_index)):
+  '''for i in range(len(list_pred_true_words_index)):
     if i in list_clustered_inds:
       continue
     not_clustered_inds.append(i)
-    print("not clustered", list_pred_true_words_index[i])
+    print("not clustered", list_pred_true_words_index[i])'''
+  for i in range(len(list_pred_true_words_index)):
+    org_i=list_pred_true_words_index[i][3]  
+    if org_i in list_clustered_inds:
+      continue
+    not_clustered_inds.append(org_i)
+    print("not clustered", seen_list_pred_true_words_index[org_i])	
 
   print("len(not_clustered_inds)", len(not_clustered_inds))	
   	  
   return not_clustered_inds
 
-def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_index):
+def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_index, seen_list_pred_true_words_index):
   max_group_sum=0
   texts_clustered_sum=0
   new_dic_keys_selectedClusters={}
@@ -141,13 +152,15 @@ def mergeGroups(dicgram_keys_selectedClusters, matchCount, list_pred_true_words_
     texts_clustered_sum+=len(txtInds)
     true_label_list=[]
     for txtInd in txtInds:
-      true_label_list.append(list_pred_true_words_index[txtInd][1])
-      print(list_pred_true_words_index[txtInd])		
+      '''true_label_list.append(list_pred_true_words_index[txtInd][1])
+      print(list_pred_true_words_index[txtInd])'''		
+      true_label_list.append(seen_list_pred_true_words_index[txtInd][1])
+      print(seen_list_pred_true_words_index[txtInd])	  
     max_group_sum+=max(Counter(true_label_list).values())	        		
       	  
   return [max_group_sum, texts_clustered_sum, new_dic_keys_selectedClusters]
 
-def clusterByNgram(dic_gram_to_textInds, minSize, maxSize, dic_used_textIds, list_pred_true_words_index):
+def clusterByNgram(dic_gram_to_textInds, minSize, maxSize, dic_used_textIds, list_pred_true_words_index, seen_list_pred_true_words_index):
   print("-----gram calculation---------")  
   #find clusters based on gram
   dicgram_keys_selectedClusters={}
@@ -195,8 +208,10 @@ def clusterByNgram(dic_gram_to_textInds, minSize, maxSize, dic_used_textIds, lis
     true_label_list=[] 
     print("selectedClustersKeysList[i]", selectedClustersKeysList[i])    	
     for txtInd in dicgram_keys_selectedClusters[selectedClustersKeysList[i]]:	
-      print(list_pred_true_words_index[txtInd])
-      true_label_list.append(list_pred_true_words_index[txtInd][1])	  
+      '''print(list_pred_true_words_index[txtInd])
+      true_label_list.append(list_pred_true_words_index[txtInd][1])'''	  
+      print(seen_list_pred_true_words_index[txtInd])
+      true_label_list.append(seen_list_pred_true_words_index[txtInd][1])	  	  
     if len(true_label_list)>0: 
       max_group_sum_gram+=max(Counter(true_label_list).values())
       dicgram_keys_selectedNonEmptyClusters[selectedClustersKeysList[i]]=dicgram_keys_selectedClusters[selectedClustersKeysList[i]]	  

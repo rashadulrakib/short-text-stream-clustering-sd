@@ -1,0 +1,16 @@
+#########news
+without -mergeing with prev batch
+new_not_clustered_inds 722 994 1043 0.9530201342281879 old_not_clustered_inds 779
+new_not_clustered_inds 883 829 865 0.9583815028901734 old_not_clustered_inds 925
+new_not_clustered_inds 920 782 829 0.9433051869722557 old_not_clustered_inds 978
+new_not_clustered_inds 741 974 1018 0.9567779960707269 old_not_clustered_inds 796
+new_not_clustered_inds 744 997 1037 0.9614271938283511 old_not_clustered_inds 794
+new_not_clustered_inds 551 429 450 0.9533333333333334 old_not_clustered_inds 571
+
+with -mergeing with prev batch
+new_not_clustered_inds 722 994 1043 0.9530201342281879 old_not_clustered_inds 779
+new_not_clustered_inds 689 2002 2096 0.9551526717557252 old_not_clustered_inds 925
+new_not_clustered_inds 674 3002 3155 0.9515055467511886 old_not_clustered_inds 978
+new_not_clustered_inds 590 4093 4295 0.9529685681024447 old_not_clustered_inds 796
+new_not_clustered_inds 550 5249 5502 0.9540167211922937 old_not_clustered_inds 794
+new_not_clustered_inds 319 5886 6168 0.9542801556420234 old_not_clustered_inds 571
