@@ -2,7 +2,7 @@ from general_util import readlistWholeJsonDataSet
 from clustering_sd import cluster_sd
 from clustering_gram import cluster_gram_freq
 
-list_pred_true_words_index=readlistWholeJsonDataSet("News")
+list_pred_true_words_index=readlistWholeJsonDataSet("NTS-mstream")
 
 
 batchSize=2000
