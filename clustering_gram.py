@@ -6,8 +6,9 @@ from clustering_gram_util import clusterByNgram
 from clustering_gram_util import mergeGroups
 from clustering_gram_util import extractNotClusteredItems
 from clustering_gram_util import assignToMergedClusters
+from clustering_gram_util import mergeWithPrevBatch
 
-def cluster_gram_freq(list_pred_true_words_index):
+def cluster_gram_freq(list_pred_true_words_index, batchNo, dictri_keys_selectedClusters_prevBatch={}, dicbi_keys_selectedClusters_prevBatch={}, not_clustered_inds_prevBatch=[], seen_list_pred_true_words_index=[]):
   dic_uniGram_to_textInds={}
   dic_biGram_to_textInds={}
   dic_triGram_to_textInds={}
@@ -46,12 +47,21 @@ def cluster_gram_freq(list_pred_true_words_index):
   print("tri", len(dic_triGram_to_textInds), "merged total cls#",len(dictri_keys_selectedClusters), tri_min, tri_max, tri_mean, tri_std, "texts_clustered_by_tri", texts_clustered_by_tri, "max_group_sum_tri", max_group_sum_tri, max_group_sum_tri/texts_clustered_by_tri)
   print("bi", len(dic_biGram_to_textInds), "merged total cls#",len(dicbi_keys_selectedClusters), bi_min, bi_max, bi_mean, bi_std, "texts_clustered_by_bi", texts_clustered_by_bi, "max_group_sum_bi", max_group_sum_bi, max_group_sum_bi/texts_clustered_by_bi)
   
+  #merge with prev batcches
+  #dictri_keys_selectedClusters=mergeWithPrevBatch(dictri_keys_selectedClusters, dictri_keys_selectedClusters_prevBatch)
+  #dicbi_keys_selectedClusters=mergeWithPrevBatch(dicbi_keys_selectedClusters, dicbi_keys_selectedClusters_prevBatch)  
+  
+  #merge with prev batcches
+  
   print("###txtIds not in merged clusters###")
   not_clustered_inds=extractNotClusteredItems(list_pred_true_words_index, [dictri_keys_selectedClusters, dicbi_keys_selectedClusters])
   
   print("###assign non clustered to merged clusters###")
   new_dicTriMerged_keys_selectedClusters, not_clustered_inds_tri=assignToMergedClusters(list_pred_true_words_index, not_clustered_inds, dictri_keys_selectedClusters, 2)
   #new_dicBiMerged_keys_selectedClusters, not_clustered_inds_bi=assignToMergedClusters(list_pred_true_words_index, not_clustered_inds_tri, dicbi_keys_selectedClusters, 2)
+  
+  return [new_dicTriMerged_keys_selectedClusters, dicbi_keys_selectedClusters, not_clustered_inds_tri]
+  #return [dictri_keys_selectedClusters_batch, ]
     
   
     

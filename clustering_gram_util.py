@@ -2,6 +2,26 @@ import statistics
 from collections import Counter
 import numpy as np
 
+def mergeWithPrevBatch(dic_keys_selectedClusters, dic_keys_selectedClusters_prevBatch):
+  if len(dic_keys_selectedClusters_prevBatch)==0:
+    return dic_keys_selectedClusters
+  new_dic_keys_selectedClusters={} 	
+  #print("mergeWithPrevBatch", len(dic_keys_selectedClusters_prevBatch))  
+
+  for key, txtInds in dic_keys_selectedClusters.items():
+    new_dic_keys_selectedClusters[key]=txtInds
+	
+  for key, prev_txtInds in dic_keys_selectedClusters_prevBatch.items():
+    if key in new_dic_keys_selectedClusters:
+      new_txtInds = new_dic_keys_selectedClusters[key]
+      combined_txtInds=list(set(prev_txtInds+new_txtInds))
+      new_dic_keys_selectedClusters[key]=combined_txtInds
+    else:
+      new_dic_keys_selectedClusters[key]=prev_txtInds	
+      	  
+  	
+  return new_dic_keys_selectedClusters	
+
 def findCloseCluster_GramKey(keys_list, word_arr, minMatch):
   closeKey_Lexical=None
   maxCommonLength=0
@@ -35,7 +55,7 @@ def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMer
       new_list.append(txtInd)      	  
       dicMerged_keys_selectedClusters[closeKey_Lexical]=new_list
       for lid in new_list:
-        print("new_list,", list_pred_true_words_index[lid]) 	  
+        print("new_list,", list_pred_true_words_index[lid])	  
       #print("list after close key", dicMerged_keys_selectedClusters[closeKey_Lexical])
 
   texts_clustered_sum=0
