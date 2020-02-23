@@ -24,7 +24,7 @@ def assignToClusterBySimilarity(not_clustered_inds_seen_batch, seen_list_pred_tr
         	  
 	
         	
-  total_dic_items=sum([len(dic_combined_keys_selectedClusters[x]) for x in dic_combined_keys_selectedClusters if isinstance(dic_combined_keys_selectedClusters[x], list)])
+  total_dic_items=sum([len(set(dic_combined_keys_selectedClusters[x])) for x in dic_combined_keys_selectedClusters if isinstance(dic_combined_keys_selectedClusters[x], list)])
   print("batch-eval: asign count "+ str(count)+"," +str(len(not_clustered_inds_seen_batch))+", total_dic_items,"+str(total_dic_items))
   #print("batch-eval: total_dic_items", total_dic_items)
   return dic_preds
@@ -38,6 +38,7 @@ def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selecte
   dic_txtIds={}
   
   for key, txtInds in dictri_keys_selectedClusters_currentBatch.items():
+    txtInds=list(set(txtInds))  
     if len(txtInds)==0:
       continue	
     if len(txtInds)==1:
@@ -47,8 +48,10 @@ def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selecte
     new_dic_combined_keys_selectedClusters[key]=txtInds	
     for txtInd in txtInds:
       dic_txtIds[txtInd]=1
+      #assign  label to text	  
 
   for key, txtInds in dicbi_keys_selectedClusters_currentBatch.items():
+    txtInds=list(set(txtInds))  
     if len(txtInds)==0:
       continue	
     if len(txtInds)==1:
@@ -67,7 +70,7 @@ def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selecte
 
   new_not_clustered_inds_currentBatch=list(set(new_not_clustered_inds_currentBatch))	
     	
-  print("filter", "batch-eval:not clustered", len(new_not_clustered_inds_currentBatch), "total texts clustered", len(dic_txtIds), len(new_dic_combined_keys_selectedClusters))
+  print("filter", "batch-eval:not clustered", len(new_not_clustered_inds_currentBatch), "total texts clustered", len(dic_txtIds), "clusters",len(new_dic_combined_keys_selectedClusters))
     	  
       
   

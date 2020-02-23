@@ -36,6 +36,7 @@ for start in range(0,allTexts,batchSize):
   #cluster_sd(sub_list_pred_true_words_index)
   dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, not_clustered_inds_currentBatch=cluster_gram_freq(sub_list_pred_true_words_index, batchNo, dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, not_clustered_inds_currentBatch, list_pred_true_words_index[0:end])
   
+  #texts in cluster and texts not in cluster should be =2000
   dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, not_clustered_inds_currentBatch, dic_combined_keys_selectedClusters=filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, sub_list_pred_true_words_index)
   
   not_clustered_inds_seen_batch.extend(not_clustered_inds_currentBatch)
