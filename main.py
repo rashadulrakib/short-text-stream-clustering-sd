@@ -37,7 +37,7 @@ for start in range(0,allTexts,batchSize):
   
   if batchNo>=1: # and batchNo%2==0:
     dic_preds=assignToClusterBySimilarity(not_clustered_inds_seen_batch, list_pred_true_words_index[0:end], dic_combined_keys_selectedClusters)
-    new_comb=combineTwoDictionary(dic_preds,dic_combined_keys_selectedClusters)	
+    new_comb=combineTwoDictionary(dic_preds,dic_combined_keys_selectedClusters, False)	
     evaluateByGram(new_comb, list_pred_true_words_index[0:end])	
     not_clustered_inds_seen_batch=[]	
       

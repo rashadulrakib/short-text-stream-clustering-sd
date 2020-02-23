@@ -5963,7 +5963,7 @@ new_list, [-1, '95', ['dallas', 'cowboy', 'wear', 'blue', 'jersey', 'thanksgivin
 
 new_not_clustered_inds 722 994 1043 0.9530201342281879 old_not_clustered_inds 779
 filter 759 1241 238
-batch-eval 1214 1288 accuracy 0.9425465838509317
+batch-eval 1435 1817 accuracy 0.7897633461750138 #clus 238
 2000 4000
 2000
 -----gram calculation---------
@@ -12489,7 +12489,7 @@ new_list, [-1, '62', ['rising', 'hope', 'helped', 'lift', 'riley', 'dancing', 't
 
 new_not_clustered_inds 691 1978 2072 0.9546332046332047 old_not_clustered_inds 925
 filter 710 2531 364
-batch-eval 2486 2626 accuracy 0.9466869763899467
+batch-eval 2718 3184 accuracy 0.8536432160804021 #clus 364
 4000 6000
 2000
 -----gram calculation---------
@@ -20141,7 +20141,7 @@ new_list, [-1, '88', ['talk', 'movement', 'yankee', 'cano'], 5996]
 
 new_not_clustered_inds 681 2963 3116 0.9508985879332478 old_not_clustered_inds 978
 filter 690 3841 456
-batch-eval 3712 3958 accuracy 0.9378473976755938
+batch-eval 3978 4525 accuracy 0.8791160220994475 #clus 456
 6000 8000
 2000
 -----gram calculation---------
@@ -27595,7 +27595,7 @@ new_list, [-1, '87', ['brooklyn', 'net', 'serious', 'long', 'term', 'trouble'], 
 
 new_not_clustered_inds 595 4046 4248 0.9524482109227872 old_not_clustered_inds 796
 filter 626 5215 588
-batch-eval 5022 5350 accuracy 0.9386915887850468
+batch-eval 5253 5883 accuracy 0.8929117797042325 #clus 588
 8000 10000
 2000
 -----gram calculation---------
@@ -35977,7 +35977,7 @@ new_list, [-1, '16', ['madeleine', 'para', 'typhoon', 'climate', 'change', 'defi
 
 new_not_clustered_inds 550 5186 5438 0.9536594336152997 old_not_clustered_inds 794
 filter 567 6648 735
-batch-eval 6400 6818 accuracy 0.9386916984452919
+batch-eval 6598 7308 accuracy 0.9028461959496442 #clus 735
 10000 11109
 1109
 -----gram calculation---------
@@ -41669,4 +41669,4 @@ new_list, [-1, '69', ['stallone', 'girl', 'find', 'fitting', 'statham', 'formula
 
 new_not_clustered_inds 322 5808 6090 0.9536945812807882 old_not_clustered_inds 571
 filter 334 7423 787
-batch-eval 7141 7602 accuracy 0.9393580636674559
+batch-eval 7255 7904 accuracy 0.9178896761133604 #clus 787

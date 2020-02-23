@@ -15,4 +15,4 @@ def evaluateByGram(dic_gramkeys_txtInds, seen_list_pred_true_words_index):
     max_group_sum+=max(Counter(true_label_list).values())
     #print("true_label_list", len(true_label_list), true_label_list)
   
-  print("batch-eval", max_group_sum, texts_clustered_sum, "accuracy", max_group_sum/texts_clustered_sum)
+  print("batch-eval", max_group_sum, texts_clustered_sum, "accuracy", max_group_sum/texts_clustered_sum, "#clus", len(dic_gramkeys_txtInds))

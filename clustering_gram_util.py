@@ -1,12 +1,22 @@
 import statistics
 from collections import Counter
 import numpy as np
+from compute_util import findCloseCluster_GramKey_lexical
 
 def assignToClusterBySimilarity(not_clustered_inds_seen_batch, seen_list_pred_true_words_index, dic_combined_keys_selectedClusters):
 
   dic_preds={}
+  keys_list=list(dic_combined_keys_selectedClusters.keys())
+  for txtInd in not_clustered_inds_seen_batch:
+    pred_true_words_index= seen_list_pred_true_words_index[txtInd]
+    word_arr=pred_true_words_index[2]
+    closeKey_Lexical=findCloseCluster_GramKey_lexical(keys_list, word_arr, 1)
+    if closeKey_Lexical != None:
+      dic_preds.setdefault(closeKey_Lexical,[]).append(txtInd)  	
+	
+        	
   
-  
+  #print("dic_preds", dic_preds)
   return dic_preds
   
 
@@ -73,21 +83,7 @@ def mergeWithPrevBatch(dic_keys_selectedClusters, dic_keys_selectedClusters_prev
   	
   return new_dic_keys_selectedClusters	
 
-def findCloseCluster_GramKey(keys_list, word_arr, minMatch):
-  closeKey_Lexical=None
-  maxCommonLength=0
-  
-  for key in keys_list:
-    set1=set(key.split(' '))
-    set2=set(word_arr)
-    common=set1.intersection(set2)
-    if len(common)>=minMatch and len(common)>maxCommonLength:
-      maxCommonLength=len(common)
-      #arr =list(common)
-      #arr.sort()	  
-      closeKey_Lexical=key	  
-  
-  return closeKey_Lexical
+
 
 def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMerged_keys_selectedClusters, minMatch, seen_list_pred_true_words_index):
   #new_dicMerged_keys_selectedClusters={} #key =[txtInds w.r.t to sublist list_pred_true_words_index]
@@ -97,7 +93,7 @@ def assignToMergedClusters(list_pred_true_words_index, not_clustered_inds,dicMer
     '''item=list_pred_true_words_index[txtInd]'''
     item=seen_list_pred_true_words_index[txtInd]	
     word_arr=item[2]
-    closeKey_Lexical=findCloseCluster_GramKey(keys_list, word_arr, minMatch)
+    closeKey_Lexical=findCloseCluster_GramKey_lexical(keys_list, word_arr, minMatch)
     if closeKey_Lexical==None:
       new_not_clustered_inds.append(txtInd)
     else:
