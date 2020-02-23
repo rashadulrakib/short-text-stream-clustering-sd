@@ -5962,8 +5962,9 @@ new_list, [-1, '95', ['mary', 'blige', 'sing', 'anthem', 'dallas', 'cowboy', 'ma
 new_list, [-1, '95', ['dallas', 'cowboy', 'wear', 'blue', 'jersey', 'thanksgiving'], 1999]
 
 new_not_clustered_inds 722 994 1043 0.9530201342281879 old_not_clustered_inds 779
-filter 759 1241 238
-batch-eval 1435 1817 accuracy 0.7897633461750138 #clus 238
+filter batch-eval:not clustered 759 total texts clustered 1241 238
+batch-eval: asign count 759,759, total_dic_items,1288
+batch-eval 1442 2047 accuracy 0.7044455300439668 #clus 238
 2000 4000
 2000
 -----gram calculation---------
@@ -12488,8 +12489,9 @@ new_list, [-1, '62', ['dancing', 'star', 'crown', 'amber', 'riley', 'derek', 'ho
 new_list, [-1, '62', ['rising', 'hope', 'helped', 'lift', 'riley', 'dancing', 'title'], 3998]
 
 new_not_clustered_inds 691 1978 2072 0.9546332046332047 old_not_clustered_inds 925
-filter 710 2531 364
-batch-eval 2718 3184 accuracy 0.8536432160804021 #clus 364
+filter batch-eval:not clustered 710 total texts clustered 2531 364
+batch-eval: asign count 710,710, total_dic_items,2626
+batch-eval 2724 3336 accuracy 0.8165467625899281 #clus 364
 4000 6000
 2000
 -----gram calculation---------
@@ -20140,8 +20142,9 @@ new_list, [-1, '88', ['yankee', 'pushing', 'meeting', 'cano'], 5313]
 new_list, [-1, '88', ['talk', 'movement', 'yankee', 'cano'], 5996]
 
 new_not_clustered_inds 681 2963 3116 0.9508985879332478 old_not_clustered_inds 978
-filter 690 3841 456
-batch-eval 3978 4525 accuracy 0.8791160220994475 #clus 456
+filter batch-eval:not clustered 690 total texts clustered 3841 456
+batch-eval: asign count 690,690, total_dic_items,3958
+batch-eval 3984 4648 accuracy 0.8571428571428571 #clus 456
 6000 8000
 2000
 -----gram calculation---------
@@ -27594,8 +27597,9 @@ new_list, [-1, '87', ['brooklyn', 'net', 'key', 'player', 'piston'], 7297]
 new_list, [-1, '87', ['brooklyn', 'net', 'serious', 'long', 'term', 'trouble'], 7989]
 
 new_not_clustered_inds 595 4046 4248 0.9524482109227872 old_not_clustered_inds 796
-filter 626 5215 588
-batch-eval 5253 5883 accuracy 0.8929117797042325 #clus 588
+filter batch-eval:not clustered 626 total texts clustered 5215 588
+batch-eval: asign count 626,626, total_dic_items,5350
+batch-eval 5254 5976 accuracy 0.8791834002677377 #clus 588
 8000 10000
 2000
 -----gram calculation---------
@@ -35976,8 +35980,9 @@ new_list, [-1, '104', ['climate', 'change', 'argument', 'denied', 'zealand', 'co
 new_list, [-1, '16', ['madeleine', 'para', 'typhoon', 'climate', 'change', 'defining', 'moral', 'issue'], 9994]
 
 new_not_clustered_inds 550 5186 5438 0.9536594336152997 old_not_clustered_inds 794
-filter 567 6648 735
-batch-eval 6598 7308 accuracy 0.9028461959496442 #clus 735
+filter batch-eval:not clustered 567 total texts clustered 6648 735
+batch-eval: asign count 567,567, total_dic_items,6818
+batch-eval 6598 7385 accuracy 0.8934326337169939 #clus 735
 10000 11109
 1109
 -----gram calculation---------
@@ -41668,5 +41673,6 @@ new_list, [-1, '69', ['review', 'homefront', 'starring', 'jason', 'statham', 'ja
 new_list, [-1, '69', ['stallone', 'girl', 'find', 'fitting', 'statham', 'formula', 'homefront'], 11105]
 
 new_not_clustered_inds 322 5808 6090 0.9536945812807882 old_not_clustered_inds 571
-filter 334 7423 787
-batch-eval 7255 7904 accuracy 0.9178896761133604 #clus 787
+filter batch-eval:not clustered 334 total texts clustered 7423 787
+batch-eval: asign count 334,334, total_dic_items,7602
+batch-eval 7255 7936 accuracy 0.9141885080645161 #clus 787

@@ -6,6 +6,11 @@ from clustering_gram_util import filterClusters
 from clustering_gram_util import assignToClusterBySimilarity
 from evaluation_util import evaluateByGram
 from dictionary_util import combineTwoDictionary
+from word_vec_extractor import extractAllWordVecs
+
+gloveFile = "/home/owner/PhD/dr.norbert/dataset/shorttext/glove.42B.300d/glove.42B.300d.txt"
+wordVectorsDic={}
+#wordVectorsDic = extractAllWordVecs(gloveFile, 300)
 
 list_pred_true_words_index=readlistWholeJsonDataSet("News")
 
@@ -36,47 +41,9 @@ for start in range(0,allTexts,batchSize):
   not_clustered_inds_seen_batch.extend(not_clustered_inds_currentBatch)
   
   if batchNo>=1: # and batchNo%2==0:
-    dic_preds=assignToClusterBySimilarity(not_clustered_inds_seen_batch, list_pred_true_words_index[0:end], dic_combined_keys_selectedClusters)
+    dic_preds=assignToClusterBySimilarity(not_clustered_inds_seen_batch, list_pred_true_words_index[0:end], dic_combined_keys_selectedClusters, wordVectorsDic)
     new_comb=combineTwoDictionary(dic_preds,dic_combined_keys_selectedClusters, False)	
     evaluateByGram(new_comb, list_pred_true_words_index[0:end])	
     not_clustered_inds_seen_batch=[]	
       
-  
- 
-  
-  
-  
-  
-  
-
-'''#temp evaluation
-texts_clustered_sum=0
-max_group_sum=0
-bigger_clusters_tri=0
-bigger_clusters_bi=0
-for mergedKey, txtInds in dictri_keys_selectedClusters_currentBatch.items():
-  #txtInds=list(set(txtInds))	
-  #print("mergedKey->", mergedKey, txtInds)	
-  texts_clustered_sum+=len(txtInds)
-  if len(txtInds)>1: bigger_clusters_tri+=1  
-  #print("txtInds-main", len(txtInds), txtInds)   
-  true_label_list=[]
-  for txtInd in txtInds:
-    true_label_list.append(list_pred_true_words_index[txtInd][1])	
-  max_group_sum+=max(Counter(true_label_list).values())
-  #print("true_label_list", len(true_label_list), true_label_list)	
-	
-for mergedKey, txtInds in dicbi_keys_selectedClusters_currentBatch.items():
-  #txtInds=list(set(txtInds))	
-  #print("mergedKey->", mergedKey, txtInds)	
-  texts_clustered_sum+=len(txtInds)
-  if len(txtInds)>1: bigger_clusters_bi+=1   
-  true_label_list=[]
-  for txtInd in txtInds:
-    true_label_list.append(list_pred_true_words_index[txtInd][1])	  
-  max_group_sum+=max(Counter(true_label_list).values())
-	
-print("\nfinal not_clustered_inds", len(not_clustered_inds_currentBatch), max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum, "tri main-total cls#", len(dictri_keys_selectedClusters_currentBatch), "bi main-total cls#",len(dicbi_keys_selectedClusters_currentBatch), "bigger_clusters_tri", bigger_clusters_tri, "bigger_clusters_bi", bigger_clusters_bi)'''
-  
-  
   
