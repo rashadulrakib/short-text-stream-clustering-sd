@@ -10,7 +10,7 @@ list_pred_true_words_index=readlistWholeJsonDataSet("News")
 batchSize=2000
 allTexts=len(list_pred_true_words_index)
 
-batchNo=-1
+batchNo=0
 
 dictri_keys_selectedClusters_currentBatch={}
 dicbi_keys_selectedClusters_currentBatch={}
@@ -29,6 +29,13 @@ for start in range(0,allTexts,batchSize):
   dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, not_clustered_inds_currentBatch, dic_combined_keys_selectedClusters=filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, sub_list_pred_true_words_index)
   
   not_clustered_inds_seen_batch.extend(not_clustered_inds_currentBatch)
+  
+  #if batchNo>0 and batchNo%2==0:
+    #dic_preds=assignToClusterBySimilarity(not_clustered_inds_seen_batch, list_pred_true_words_index[0:end], dic_combined_keys_selectedClusters)
+    #combine dic_preds with dic_combined_keys_selectedClusters and evaluate	
+  
+    #not_clustered_inds_seen_batch=[]   
+      
   
   #temp evaluation
   texts_clustered_sum=0
