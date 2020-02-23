@@ -3,8 +3,13 @@ from clustering_sd import cluster_sd
 from clustering_gram import cluster_gram_freq
 from collections import Counter
 from clustering_gram_util import filterClusters
+from clustering_gram_util import assignToClusterBySimilarity
+from evaluation_util import evaluateByGram
+from dictionary_util import combineTwoDictionary
 
 list_pred_true_words_index=readlistWholeJsonDataSet("News")
+
+
 
 
 batchSize=2000
@@ -30,31 +35,14 @@ for start in range(0,allTexts,batchSize):
   
   not_clustered_inds_seen_batch.extend(not_clustered_inds_currentBatch)
   
-  #if batchNo>0 and batchNo%2==0:
-    #dic_preds=assignToClusterBySimilarity(not_clustered_inds_seen_batch, list_pred_true_words_index[0:end], dic_combined_keys_selectedClusters)
-    #combine dic_preds with dic_combined_keys_selectedClusters and evaluate	
-  
-    #not_clustered_inds_seen_batch=[]   
+  if batchNo>=1: # and batchNo%2==0:
+    dic_preds=assignToClusterBySimilarity(not_clustered_inds_seen_batch, list_pred_true_words_index[0:end], dic_combined_keys_selectedClusters)
+    new_comb=combineTwoDictionary(dic_preds,dic_combined_keys_selectedClusters)	
+    evaluateByGram(new_comb, list_pred_true_words_index[0:end])	
+    not_clustered_inds_seen_batch=[]	
       
   
-  #temp evaluation
-  texts_clustered_sum=0
-  max_group_sum=0
-  bigger_clusters_tri=0
-  bigger_clusters_bi=0
-  for mergedKey, txtInds in dic_combined_keys_selectedClusters.items():
-    #txtInds=list(set(txtInds))	
-    #print("mergedKey->", mergedKey, txtInds)	
-    texts_clustered_sum+=len(txtInds)
-    if len(txtInds)>1: bigger_clusters_tri+=1  
-    #print("txtInds-main", len(txtInds), txtInds)   
-    true_label_list=[]
-    for txtInd in txtInds:
-      true_label_list.append(list_pred_true_words_index[txtInd][1])	
-    max_group_sum+=max(Counter(true_label_list).values())
-    #print("true_label_list", len(true_label_list), true_label_list)
-  
-  print("batch-eval", max_group_sum, texts_clustered_sum, max_group_sum/texts_clustered_sum)
+ 
   
   
   

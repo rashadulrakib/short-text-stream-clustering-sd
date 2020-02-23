@@ -2,6 +2,14 @@ import statistics
 from collections import Counter
 import numpy as np
 
+def assignToClusterBySimilarity(not_clustered_inds_seen_batch, seen_list_pred_true_words_index, dic_combined_keys_selectedClusters):
+
+  dic_preds={}
+  
+  
+  return dic_preds
+  
+
 def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, sub_list_pred_true_words_index):
   new_dictri_keys_selectedClusters_currentBatch={}
   new_dicbi_keys_selectedClusters_currentBatch={}
