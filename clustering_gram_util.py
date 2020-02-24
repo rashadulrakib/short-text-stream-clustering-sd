@@ -5,37 +5,43 @@ from compute_util import findCloseCluster_GramKey_lexical
 from compute_util import findCloseCluster_GramKey_Semantic
 
 def assignToClusterBySimilarity(not_clustered_inds_seen_batch, seen_list_pred_true_words_index, dic_combined_keys_selectedClusters, wordVectorsDic):
-
+  new_not_clustered_inds_seen_batch=[]
   dic_preds={}
   count=0
   keys_list=list(dic_combined_keys_selectedClusters.keys())
   for txtInd in not_clustered_inds_seen_batch:
     pred_true_words_index= seen_list_pred_true_words_index[txtInd]
     word_arr=pred_true_words_index[2]
-    closeKey_Lexical=findCloseCluster_GramKey_lexical(keys_list,word_arr,1)
-    closeKey_Semantic=findCloseCluster_GramKey_Semantic(keys_list,word_arr,1, wordVectorsDic)    
+    closeKey_Lexical=findCloseCluster_GramKey_lexical(keys_list,word_arr,2)
+    closeKey_Semantic=findCloseCluster_GramKey_Semantic(keys_list,word_arr,1, wordVectorsDic)
+    seen_item=seen_list_pred_true_words_index[txtInd]	
     if closeKey_Lexical != None:
       dic_preds.setdefault(closeKey_Lexical,[]).append(txtInd)
-      count+=1	  
+      count+=1	
+	  
+      new_not_clustered_inds_seen_batch.append([closeKey_Lexical ,seen_item[1], seen_item[2], seen_item[3]])  	  
     else:
       if closeKey_Semantic !=None:
         dic_preds.setdefault(closeKey_Semantic,[]).append(txtInd)
-        count+=1			
+        count+=1
+		
+        new_not_clustered_inds_seen_batch.append([closeKey_Semantic ,seen_item[1], seen_item[2], seen_item[3]])		
         	  
 	
         	
   total_dic_items=sum([len(set(dic_combined_keys_selectedClusters[x])) for x in dic_combined_keys_selectedClusters if isinstance(dic_combined_keys_selectedClusters[x], list)])
   print("batch-eval: asign count "+ str(count)+"," +str(len(not_clustered_inds_seen_batch))+", total_dic_items,"+str(total_dic_items))
   #print("batch-eval: total_dic_items", total_dic_items)
-  return dic_preds
+  return [dic_preds, new_not_clustered_inds_seen_batch]
   
 
-def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, sub_list_pred_true_words_index):
+def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selectedClusters_currentBatch, sub_list_pred_true_words_index, seen_list_pred_true_words_index):
   new_dictri_keys_selectedClusters_currentBatch={}
   new_dicbi_keys_selectedClusters_currentBatch={}
   new_dic_combined_keys_selectedClusters={}
   new_not_clustered_inds_currentBatch=[]
   dic_txtIds={}
+  new_sub_list_pred_true_words_index=[]
   
   for key, txtInds in dictri_keys_selectedClusters_currentBatch.items():
     txtInds=list(set(txtInds))  
@@ -47,7 +53,9 @@ def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selecte
     new_dictri_keys_selectedClusters_currentBatch[key]=txtInds
     new_dic_combined_keys_selectedClusters[key]=txtInds	
     for txtInd in txtInds:
-      dic_txtIds[txtInd]=1
+      dic_txtIds[txtInd]=key
+	  
+	  
       #assign  label to text	  
 
   for key, txtInds in dicbi_keys_selectedClusters_currentBatch.items():
@@ -60,21 +68,23 @@ def filterClusters(dictri_keys_selectedClusters_currentBatch, dicbi_keys_selecte
     new_dicbi_keys_selectedClusters_currentBatch[key]=txtInds
     new_dic_combined_keys_selectedClusters[key]=txtInds	
     for txtInd in txtInds:
-      dic_txtIds[txtInd]=1	
+      dic_txtIds[txtInd]=key
 
   for pred_true_words_index	in sub_list_pred_true_words_index: 
     index=pred_true_words_index[3]
     if index in dic_txtIds:
+      cluster_key=dic_txtIds[index]	
+      seen_item=seen_list_pred_true_words_index[index]
+      new_sub_list_pred_true_words_index.append([cluster_key, seen_item[1], seen_item[2], seen_item[3]]) 
+	  
       continue 	
     new_not_clustered_inds_currentBatch.append(index)
 
-  new_not_clustered_inds_currentBatch=list(set(new_not_clustered_inds_currentBatch))	
-    	
+  new_not_clustered_inds_currentBatch=list(set(new_not_clustered_inds_currentBatch))
+  	
   print("filter", "batch-eval:not clustered", len(new_not_clustered_inds_currentBatch), "total texts clustered", len(dic_txtIds), "clusters",len(new_dic_combined_keys_selectedClusters))
-    	  
-      
-  
-  return [new_dictri_keys_selectedClusters_currentBatch, new_dicbi_keys_selectedClusters_currentBatch, new_not_clustered_inds_currentBatch, new_dic_combined_keys_selectedClusters]
+    	   
+  return [new_dictri_keys_selectedClusters_currentBatch, new_dicbi_keys_selectedClusters_currentBatch, new_not_clustered_inds_currentBatch, new_dic_combined_keys_selectedClusters, new_sub_list_pred_true_words_index]
 
 def mergeWithPrevBatch(dic_keys_selectedClusters, dic_keys_selectedClusters_prevBatch):
   if len(dic_keys_selectedClusters_prevBatch)==0:

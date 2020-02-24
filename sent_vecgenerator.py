@@ -1,7 +1,7 @@
 def generate_sent_vecs_toktextdata(docsWords, termsVectorsDic, dim=300):
  toktextdatavecs = []
- if len(termsVectorsDic)>0:
-  dim=len(termsVectorsDic[0]) 
+ #if len(termsVectorsDic)>0:
+ # dim=len(termsVectorsDic.items) 
 
  for i in range(len(docsWords)): 
   words = docsWords[i]
